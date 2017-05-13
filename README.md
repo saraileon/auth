@@ -1,6 +1,6 @@
 # auth
 
-Boilerplate for authentification with JWT.
+Boilerplate for authentification with ExpressJS & JWT.
 Handles Routes:
 - /
 - /signin
