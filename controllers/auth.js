@@ -34,7 +34,7 @@ exports.signup = (req, res, next) => {
 		// Log event
 		console.log(' ');
 		logger.error({status: 422, err: err});
-		return res.status(422).send({error: err});
+		return res.status(422).send({status: 422, error: err});
 	}
 
 
@@ -56,7 +56,7 @@ exports.signup = (req, res, next) => {
 			console.log(' ');
 			logger.error({status: 422, err: err});
 
-			return res.status(422).send({error: err});
+			return res.status(422).send({status: 422, error: err});
 		}
 
 

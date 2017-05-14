@@ -27,27 +27,28 @@ const config		  	= require('../config');
 		User.findOne({ email: email }).exec(function( err, user) {
 			if(err){
 				console.log(' ');
-				logger.error({err: err})
-				return done(err, false)
+				logger.error({err: err});
+				return done(err, false);
 			}
 			if(!user){
 				console.log(' ');
 				logger.error({err: 'Cant find the user'});
-				done(null, false)
+				return done(null, false);
 			}
 
 			// compare passwords
+			console.log( user )
 			user.comparePassword(password, function(err, isMatch) {
 				if(err){
 					console.log(' ');
-					logger.error({err: err})
+					logger.error({err: err});
 					return done(err);
 				}
 
 				if(!isMatch){
 					console.log(' ');
-					logger.error({err: 'incorrect password'})
-					return done(null, false)
+					logger.error({err: 'incorrect password'});
+					return done(null, false);
 				}else{
 					console.log(' ');
 					logger.info({msg: 'User auth: '+user.email});
@@ -77,8 +78,8 @@ const config		  	= require('../config');
 		User.findById( payload.sub).exec(function( err, user) {
 			if(err){
 				console.log(' ');
-				logger.error({err: err})
-				return done(err, false)
+				logger.error({err: err});
+				return done(err, false);
 			}
 
 			if(user) {
@@ -88,7 +89,7 @@ const config		  	= require('../config');
 			}else{
 				console.log(' ');
 				logger.error({err: 'Cant find the user'});
-				done(null, false)
+				done(null, false);
 			}
 		});
 	});
