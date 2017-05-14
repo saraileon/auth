@@ -12,9 +12,23 @@ mongoose.connect('mongodb://localhost:auth/auth');
 
 const app   = express();
 
+//CORS middleware
+var allowCrossDomain = function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*'); // replace '*' with the domain you're allowing cors
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+
+  next();
+};
+
 // App Setup
 app.use(morgan('combined'));
 app.use(bodyParser.json({ type: '*/*' }));
+
+/* Allow CORS*/
+app.use(allowCrossDomain);
+
+/* Router Setup */
 router(app);
 
 
