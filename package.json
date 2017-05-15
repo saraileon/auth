@@ -1,7 +1,7 @@
 {
   "name": "auth-boilerplate",
   "version": "1.0.0",
-  "description": "Auth Boilerplate",
+  "description": "Auth Boilerplate based on @StephenGrider's code",
   "main": "app.js",
   "author": "Sarai Leon",
   "license": "MIT",
