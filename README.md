@@ -14,4 +14,4 @@ Handles Routes:
 		secret: YOUR_SECRET_HERE
 	};`
 
-Based on the code by @StephenGrider
+Based on the code by [@StephenGrider](https://github.com/StephenGrider)
