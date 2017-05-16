@@ -16,15 +16,15 @@ const config        = require('../config');
 
 // Setup options for Local Strategy
 const localOptions = {
-  usernameField: 'email'
+  usernameField: 'username'
 };
 
 // Create Local Strategy
-const localLogin = new LocalStrategy(localOptions, function(email, password, done) {
-  // Verify this email and password, call 'done' with the user
-  // if it is the correct email and password
+const localLogin = new LocalStrategy(localOptions, function(username, password, done) {
+  // Verify this username and password, call 'done' with the user
+  // if it is the correct username and password
   // otherwise call 'done' with false
-  User.findOne({ email: email }).exec(function(err, user) {
+  User.findOne({ username: username }).exec(function(err, user) {
     if (err) {
       console.log(' ');
       logger.error({ err: err });
@@ -51,7 +51,7 @@ const localLogin = new LocalStrategy(localOptions, function(email, password, don
         return done(null, false);
       } else {
         console.log(' ');
-        logger.info({ msg: 'User auth: ' + user.email });
+        logger.info({ msg: 'User auth: ' + user.username });
         return done(null, user);
       }
 
@@ -84,7 +84,7 @@ const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done) {
 
     if (user) {
       console.log(' ');
-      logger.info({ msg: 'User auth: ' + user.email });
+      logger.info({ msg: 'User auth: ' + user.username });
       done(null, user);
     } else {
       console.log(' ');

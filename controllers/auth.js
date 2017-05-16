@@ -3,13 +3,19 @@
 
 const logger = require('winston-color');
 const jwt    = require('jwt-simple');
+const moment = require('moment');
 const User   = require('../models/user');
 const config = require('../config');
 
 
 function tokenForUser(user) {
-  const timestamp = new Date().getTime();
-  return jwt.encode({ sub: user.id, iat: timestamp }, config.secret);
+  let iatStamp = moment();
+  let expStamp = moment(iatStamp).add(1, 'day');
+      iatStamp = new Date(iatStamp).getTime();
+      expStamp = new Date(expStamp).getTime();
+  delete user.password;
+
+  return jwt.encode({ sub: user.id, iat: iatStamp, exp: expStamp, user: user }, config.secret);
 }
 
 
@@ -19,17 +25,19 @@ exports.signin = (req, res, next) => {
   const token = tokenForUser(req.user);
 
   console.log(' ');
-  logger.info({ status: 200, msg: 'User authenticated', email: req.user.email, token: token });
+  logger.info({ status: 200, msg: 'User authenticated', email: req.user.username, token: token });
   res.send({ token: token })
 }
 
 
 exports.signup = (req, res, next) => {
-  const email = req.body.email;
+  const email    = req.body.email;
   const password = req.body.password;
+  const username = req.body.username;
+  const name     = req.body.name;
 
-  if (!email || !password) {
-    const err = 'You must provide an email & password';
+  if (!username || !password) {
+    const err = 'You must provide an username & password';
 
     // Log event
     console.log(' ');
@@ -38,8 +46,8 @@ exports.signup = (req, res, next) => {
   }
 
 
-  // See if a user with the given email exists
-  User.findOne({ 'email': email }).exec((err, existingUser) => {
+  // See if a user with the given username exists
+  User.findOne({ 'username': username }).exec((err, existingUser) => {
     if (err) {
       // Log event
       console.log(' ');
@@ -48,9 +56,9 @@ exports.signup = (req, res, next) => {
       return next(err);
     }
 
-    // If a user with email does exist, return an error
+    // If a user with username does exist, return an error
     if (existingUser) {
-      const err = 'Email is in use';
+      const err = 'username is in use';
 
       // Log event
       console.log(' ');
@@ -60,9 +68,11 @@ exports.signup = (req, res, next) => {
     }
 
 
-    // Is a user with email does NOT exists, create and save user record
+    // Is a user with username does NOT exists, create and save user record
     const user = new User({
-      email: email,
+      username: username,
+      email:    email,
+      name:     name,
       password: password
     });
 
@@ -80,9 +90,9 @@ exports.signup = (req, res, next) => {
 
       // Log event
       console.log(' ');
-      logger.info({ status: 200, msg: 'User created', email: newUser.email, token: token });
+      logger.info({ status: 200, msg: 'User created', username: newUser.username, token: token });
 
-      return res.status(200).send({ msg: 'User created', email: newUser.email, token: token });
+      return res.status(200).send({ msg: 'User created', username: newUser.username, token: token });
     });
   });
 

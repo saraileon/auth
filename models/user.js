@@ -8,6 +8,8 @@ const Schema 	 = mongoose.Schema;
 
 const userSchema = new Schema({
 	email: 		{ type: String, unique: true, lowercase: true },
+  username: { type: String, unique: true, lowercase: true },
+  name:     { type: String },
 	password: { type: String }
 });
 

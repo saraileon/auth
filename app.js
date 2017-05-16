@@ -32,7 +32,7 @@ app.use(allowCrossDomain);
 router(app);
 
 // Server Setup
-const port = process.env.PORT || 3090;
+const port = process.env.PORT || 1377;
 const server = http.createServer(app);
 server.listen(port);
 console.log(' ');
