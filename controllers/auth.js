@@ -25,7 +25,7 @@ exports.signin = (req, res, next) => {
   const token = tokenForUser(req.user);
 
   console.log(' ');
-  logger.info({ status: 200, msg: 'User authenticated', email: req.user.username, token: token });
+  logger.info({ msg: 'User authenticated', email: req.user.username, token: token });
   res.send({ token: token })
 }
 
@@ -41,8 +41,8 @@ exports.signup = (req, res, next) => {
 
     // Log event
     console.log(' ');
-    logger.error({ status: 422, err: err });
-    return res.status(422).send({ status: 422, error: err });
+    logger.error({ err: err });
+    return res.status(422).send({ error: err });
   }
 
 
@@ -62,9 +62,9 @@ exports.signup = (req, res, next) => {
 
       // Log event
       console.log(' ');
-      logger.error({ status: 422, err: err });
+      logger.error({ err: err });
 
-      return res.status(422).send({ status: 422, error: err });
+      return res.status(422).send({ error: err });
     }
 
 
@@ -90,7 +90,7 @@ exports.signup = (req, res, next) => {
 
       // Log event
       console.log(' ');
-      logger.info({ status: 200, msg: 'User created', username: newUser.username, token: token });
+      logger.info({ msg: 'User created', username: newUser.username, token: token });
 
       return res.status(200).send({ msg: 'User created', username: newUser.username, token: token });
     });
